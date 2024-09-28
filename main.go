@@ -102,11 +102,11 @@ func main() {
 	//nolint
 	switch ctx.Command() {
 	case "version":
-		fmt.Printf("Teller %v\n", version)
+		fmt.Printf("Teller %v\n", Version)
 		os.Exit(0)
 	case "providers":
 		providersMetaList := providers.GetAllProvidersMeta()
-		providersMetaJSON, err := providers.GenerateProvidersMetaJSON(version, providersMetaList)
+		providersMetaJSON, err := providers.GenerateProvidersMetaJSON(Version, providersMetaList)
 		if err != nil {
 			logger.WithError(err).Fatal("could not get providers meta, %s", err)
 		}

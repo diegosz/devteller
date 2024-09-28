@@ -1,6 +1,6 @@
 autobrew
 dist/
-teller
+devteller
 .vscode/
 node_modules/
 todo.txt
@@ -9,3 +9,4 @@ coverage.out
 fixtures/sync/target.env
 dist/
 .idea
+CHANGELOG-REVIEW.md
