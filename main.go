@@ -23,30 +23,23 @@ var CLI struct {
 		Cmd    []string `arg name:"cmd" help:"Command to execute"`
 	} `cmd help:"Run a command"`
 
-	Version struct {
-	} `cmd aliases:"v" help:"Teller version"`
+	Version struct{} `cmd aliases:"v" help:"Teller version"`
 
-	New struct {
-	} `cmd help:"Create a new teller configuration file"`
+	New struct{} `cmd help:"Create a new teller configuration file"`
 
-	Show struct {
-	} `cmd help:"Print in a human friendly, secure format"`
+	Show struct{} `cmd help:"Print in a human friendly, secure format"`
 
 	Providers struct {
 		Path string `optional name:"path" help:"Path for saving providers JSON file"`
 	} `cmd help:"Export providers metadata to a local JSON file" hidden: ""`
 
-	Yaml struct {
-	} `cmd help:"Print values in a YAML format (suitable for GCloud)"`
+	Yaml struct{} `cmd help:"Print values in a YAML format (suitable for GCloud)"`
 
-	JSON struct {
-	} `cmd help:"Print values in a JSON format"`
+	JSON struct{} `cmd help:"Print values in a JSON format"`
 
-	Sh struct {
-	} `cmd help:"Print ready to be eval'd exports for your shell"`
+	Sh struct{} `cmd help:"Print ready to be eval'd exports for your shell"`
 
-	Env struct {
-	} `cmd help:"Print in a .env format for Docker and others"`
+	Env struct{} `cmd help:"Print in a .env format for Docker and others"`
 
 	Template struct {
 		TemplatePath string `arg name:"template_path" help:"Path to the template source (Go template format)"`
@@ -93,14 +86,9 @@ var CLI struct {
 	} `cmd help:"Delete a secret"`
 }
 
-var (
-	version         = "dev"
-	commit          = "none"
-	date            = "unknown"
-	defaultLogLevel = "error"
-)
+var defaultLogLevel = "error"
 
-//nolint
+// nolint
 func main() {
 	ctx := kong.Parse(&CLI)
 
@@ -115,7 +103,6 @@ func main() {
 	switch ctx.Command() {
 	case "version":
 		fmt.Printf("Teller %v\n", version)
-		fmt.Printf("Revision %v, date: %v\n", commit, date)
 		os.Exit(0)
 	case "providers":
 		providersMetaList := providers.GetAllProvidersMeta()
@@ -293,7 +280,6 @@ func main() {
 
 	case "scan":
 		findings, err := teller.Scan(CLI.Scan.Path, CLI.Scan.Silent)
-
 		if err != nil {
 			logger.WithError(err).WithField("path", CLI.Scan.Path).Fatal("scan error")
 		}

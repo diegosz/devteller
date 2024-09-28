@@ -27,6 +27,7 @@ type InMemProvider struct {
 func (im *InMemProvider) Put(p core.KeyPath, val string) error {
 	return fmt.Errorf("provider %q does not implement write yet", im.Name())
 }
+
 func (im *InMemProvider) PutMapping(p core.KeyPath, m map[string]string) error {
 	return fmt.Errorf("provider %q does not implement write yet", im.Name())
 }
@@ -59,8 +60,9 @@ func (im *InMemProvider) DeleteMapping(kp core.KeyPath) error {
 }
 
 func (im *InMemProvider) GetProvider(name string) (core.Provider, error) {
-	return im, nil //hardcode to return self
+	return im, nil // hardcode to return self
 }
+
 func (im *InMemProvider) ProviderHumanToMachine() map[string]string {
 	return map[string]string{
 		"Inmem": "inmem",
@@ -75,7 +77,7 @@ func (im *InMemProvider) Meta() core.MetaInfo {
 	return core.MetaInfo{}
 }
 
-//nolint
+// nolint
 func init() {
 	inmemProviderMeta := core.MetaInfo{
 		Name:        "inmem-provider",
@@ -100,7 +102,6 @@ func NewInMemProvider(logger logging.Logger) (core.Provider, error) {
 		},
 		alwaysError: false,
 	}, nil
-
 }
 
 func NewInMemErrorProvider(logger logging.Logger) (core.Provider, error) {
@@ -112,7 +113,6 @@ func NewInMemErrorProvider(logger logging.Logger) (core.Provider, error) {
 		},
 		alwaysError: true,
 	}, nil
-
 }
 
 func (im *InMemProvider) GetMapping(p core.KeyPath) ([]core.EnvEntry, error) {
@@ -133,6 +133,7 @@ func (im *InMemProvider) GetMapping(p core.KeyPath) ([]core.EnvEntry, error) {
 	sort.Sort(core.EntriesByKey(entries))
 	return entries, nil
 }
+
 func (im *InMemProvider) Get(p core.KeyPath) (*core.EnvEntry, error) {
 	if im.alwaysError {
 		return nil, errors.New("error")
@@ -379,6 +380,7 @@ func TestTellerCollectWithErrors(t *testing.T) {
 	err := tl.Collect()
 	assert.NotNil(t, err)
 }
+
 func TestTellerPorcelainNonInteractive(t *testing.T) {
 	var b bytes.Buffer
 
@@ -407,7 +409,6 @@ func TestTellerPorcelainNonInteractive(t *testing.T) {
 
 	tl.PrintEnvKeys()
 	assert.Equal(t, b.String(), "-*- teller: loaded variables for test-project using nowhere -*-\n\n[test-provider path/kv] k = v*****\n")
-
 }
 
 func TestTellerEntriesOutputSort(t *testing.T) {
@@ -512,12 +513,12 @@ func TestTellerSync(t *testing.T) {
 
 	err = os.WriteFile("../fixtures/sync/target.env", []byte(`
 FOO=1
-`), 0644)
+`), 0o644)
 	assert.NoError(t, err)
 
 	err = os.WriteFile("../fixtures/sync/target2.env", []byte(`
 FOO=2
-`), 0644)
+`), 0o644)
 
 	assert.NoError(t, err)
 
@@ -528,22 +529,21 @@ FOO=2
 	content, err := os.ReadFile("../fixtures/sync/target.env")
 	assert.NoError(t, err)
 
-	assert.Equal(t, string(content), `FOO="1"
-ONE="1"
-THREE="3"
-TWO="2"`)
+	assert.Equal(t, string(content), `FOO=1
+ONE=1
+THREE=3
+TWO=2`)
 
 	content, err = os.ReadFile("../fixtures/sync/target2.env")
 	assert.NoError(t, err)
 
-	assert.Equal(t, string(content), `FOO="2"
-ONE="1"
-THREE="3"
-TWO="2"`)
+	assert.Equal(t, string(content), `FOO=2
+ONE=1
+THREE=3
+TWO=2`)
 }
 
 func TestTemplateFile(t *testing.T) {
-
 	tlrfile, err := NewTellerFile("../fixtures/sync/teller.yml")
 	if err != nil {
 		fmt.Printf("Error: %v", err)
@@ -559,7 +559,7 @@ func TestTemplateFile(t *testing.T) {
 	templatePath := filepath.Join(tempFolder, "target.tpl")      // prepare template file path
 	destinationPath := filepath.Join(tempFolder, "starget.envs") // prepare destination file path
 
-	err = os.WriteFile(templatePath, []byte(`Hello, {{.Teller.EnvByKey "TEST-PLACEHOLDER" "default-value" }}!`), 0644)
+	err = os.WriteFile(templatePath, []byte(`Hello, {{.Teller.EnvByKey "TEST-PLACEHOLDER" "default-value" }}!`), 0o644)
 	assert.NoError(t, err)
 
 	err = tl.templateFile(templatePath, destinationPath)
@@ -568,11 +568,9 @@ func TestTemplateFile(t *testing.T) {
 	txt, err := ioutil.ReadFile(destinationPath)
 	assert.NoError(t, err)
 	assert.Equal(t, string(txt), "Hello, secret-here!")
-
 }
 
 func TestTemplateFolder(t *testing.T) {
-
 	tlrfile, err := NewTellerFile("../fixtures/sync/teller.yml")
 	if err != nil {
 		fmt.Printf("Error: %v", err)
@@ -600,9 +598,9 @@ func TestTemplateFolder(t *testing.T) {
 
 	defer os.RemoveAll(tempFolder)
 
-	err = os.WriteFile(filepath.Join(templateFolder, "target.tpl"), []byte(`Hello, {{.Teller.EnvByKey "TEST-PLACEHOLDER" "default-value" }}!`), 0644)
+	err = os.WriteFile(filepath.Join(templateFolder, "target.tpl"), []byte(`Hello, {{.Teller.EnvByKey "TEST-PLACEHOLDER" "default-value" }}!`), 0o644)
 	assert.NoError(t, err)
-	err = os.WriteFile(filepath.Join(templateFolder, "folder1", "folder2", "target2.tpl"), []byte(`Hello, {{.Teller.EnvByKey "TEST-PLACEHOLDER-2" "default-value" }}!`), 0644)
+	err = os.WriteFile(filepath.Join(templateFolder, "folder1", "folder2", "target2.tpl"), []byte(`Hello, {{.Teller.EnvByKey "TEST-PLACEHOLDER-2" "default-value" }}!`), 0o644)
 	assert.NoError(t, err)
 
 	err = tl.templateFolder(templateFolder, copyToFolder)
@@ -616,7 +614,6 @@ func TestTemplateFolder(t *testing.T) {
 	txt, err = ioutil.ReadFile(filepath.Join(copyToFolder, "folder1", "folder2", "target2.tpl"))
 	assert.NoError(t, err)
 	assert.Equal(t, string(txt), "Hello, secret2-here!")
-
 }
 
 func TestTellerDelete(t *testing.T) {
