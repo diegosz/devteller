@@ -1,6 +1,13 @@
 # CHANGELOG
 
 
+## v1.6.0 (2024-09-28)
+
+### Bug Fixes
+
+- update module name and imports to use 'devteller'
+
+
 ## v1.5.7 (2024-09-28)
 
 ### Bug Fixes
