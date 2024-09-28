@@ -8,10 +8,10 @@ import (
 	"os"
 
 	"github.com/alecthomas/kong"
-	"github.com/spectralops/teller/pkg"
-	"github.com/spectralops/teller/pkg/logging"
-	"github.com/spectralops/teller/pkg/providers"
-	"github.com/spectralops/teller/pkg/utils"
+	"github.com/diegosz/devteller/pkg"
+	"github.com/diegosz/devteller/pkg/logging"
+	"github.com/diegosz/devteller/pkg/providers"
+	"github.com/diegosz/devteller/pkg/utils"
 )
 
 var CLI struct {

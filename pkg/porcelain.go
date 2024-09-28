@@ -13,10 +13,10 @@ import (
 	survey "github.com/AlecAivazis/survey/v2"
 	"github.com/samber/lo"
 
+	"github.com/diegosz/devteller/pkg/core"
+	"github.com/diegosz/devteller/pkg/utils"
 	"github.com/fatih/color"
 	"github.com/jftuga/ellipsis"
-	"github.com/spectralops/teller/pkg/core"
-	"github.com/spectralops/teller/pkg/utils"
 )
 
 type Porcelain struct {
@@ -32,7 +32,7 @@ func (p *Porcelain) StartWizard() (*core.WizardAnswers, error) {
 	displayProviders := lo.Keys(providerNames)
 	sort.Strings(displayProviders)
 	// the questions to ask
-	var qs = []*survey.Question{
+	qs := []*survey.Question{
 		{
 			Name: "project",
 			Prompt: &survey.Input{
@@ -122,6 +122,7 @@ func (p *Porcelain) PrintEntries(entries []core.EnvEntry) {
 
 	fmt.Fprint(p.Out, out)
 }
+
 func maskedValue(v string) string {
 	return fmt.Sprintf("%s*****", v[:int(math.Min(float64(len(v)), 2))]) //nolint: gomnd
 }
@@ -176,7 +177,6 @@ func (p *Porcelain) PrintDrift(drifts []core.DriftedEntry) {
 			}
 		}
 	}
-
 }
 
 func (p *Porcelain) DidPutKVP(kvp core.KeyPath, pname string, sync bool) {

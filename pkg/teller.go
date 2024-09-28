@@ -15,11 +15,11 @@ import (
 	"text/template"
 	"time"
 
+	"github.com/diegosz/devteller/pkg/core"
+	"github.com/diegosz/devteller/pkg/logging"
+	"github.com/diegosz/devteller/pkg/providers"
 	"github.com/karrick/godirwalk"
 	"github.com/samber/lo"
-	"github.com/spectralops/teller/pkg/core"
-	"github.com/spectralops/teller/pkg/logging"
-	"github.com/spectralops/teller/pkg/providers"
 	"gopkg.in/yaml.v3"
 )
 
@@ -217,6 +217,7 @@ func hasBindata(line []byte) bool {
 	}
 	return false
 }
+
 func checkForMatches(path string, entries []core.EnvEntry) ([]core.Match, error) {
 	file, err := os.Open(path)
 	if err != nil {
@@ -232,7 +233,7 @@ func checkForMatches(path string, entries []core.EnvEntry) ([]core.Match, error)
 	//nolint
 	scanner.Buffer(buf, 10*1024*1024) // 10MB lines correlating to 10MB files max (bundles?)
 
-	var lineNumber = 0
+	lineNumber := 0
 	for scanner.Scan() {
 		lineNumber++
 		line := scanner.Bytes()
@@ -249,7 +250,8 @@ func checkForMatches(path string, entries []core.EnvEntry) ([]core.Match, error)
 			}
 			if matchIndex := strings.Index(linestr, ent.Value); matchIndex != -1 {
 				m := core.Match{
-					Path: path, Line: linestr, LineNumber: lineNumber, MatchIndex: matchIndex, Entry: ent}
+					Path: path, Line: linestr, LineNumber: lineNumber, MatchIndex: matchIndex, Entry: ent,
+				}
 				retval = append(retval, m)
 			}
 		}
@@ -308,7 +310,6 @@ func (tl *Teller) Scan(path string, silent bool) ([]core.Match, error) {
 
 // Template Teller vars from a given path (can be file or folder)
 func (tl *Teller) Template(from, to string) error {
-
 	fileInfo, err := os.Stat(from)
 	if err != nil {
 		return fmt.Errorf("invald path. err: %v", err)
@@ -323,7 +324,6 @@ func (tl *Teller) Template(from, to string) error {
 
 // templateFolder scan given folder and inject Teller vars for each search file
 func (tl *Teller) templateFolder(from, to string) error {
-
 	err := godirwalk.Walk(from, &godirwalk.Options{
 		Callback: func(osPathname string, de *godirwalk.Dirent) error {
 			if de.IsDir() {
@@ -387,7 +387,6 @@ func updateParams(ent *core.EnvEntry, from *core.KeyPath, pname string) {
 }
 
 func (tl *Teller) CollectFromProvider(pname string) ([]core.EnvEntry, error) {
-
 	entries := []core.EnvEntry{}
 	conf, ok := tl.Config.Providers[pname]
 	p, err := tl.Providers.GetProvider(pname)

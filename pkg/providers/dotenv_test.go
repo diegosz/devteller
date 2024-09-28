@@ -7,8 +7,8 @@ import (
 	"github.com/alecthomas/assert"
 	"github.com/golang/mock/gomock"
 
-	"github.com/spectralops/teller/pkg/core"
-	"github.com/spectralops/teller/pkg/providers/mock_providers"
+	"github.com/diegosz/devteller/pkg/core"
+	"github.com/diegosz/devteller/pkg/providers/mock_providers"
 )
 
 func TestDotenv(t *testing.T) {

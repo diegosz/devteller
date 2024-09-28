@@ -6,7 +6,7 @@ import (
 	"testing"
 
 	"github.com/alecthomas/assert"
-	"github.com/spectralops/teller/pkg/core"
+	"github.com/diegosz/devteller/pkg/core"
 )
 
 func createMockDirectoryStructure(f *FileSystem) error {
@@ -26,7 +26,7 @@ func createMockDirectoryStructure(f *FileSystem) error {
 		if err != nil {
 			return err
 		}
-		err = os.WriteFile(filepath.Join(f.rootDirectory, filePath.path, filePath.fileName), []byte(filePath.value), 0644)
+		err = os.WriteFile(filepath.Join(f.rootDirectory, filePath.path, filePath.fileName), []byte(filePath.value), 0o644)
 		if err != nil {
 			return err
 		}
@@ -36,7 +36,6 @@ func createMockDirectoryStructure(f *FileSystem) error {
 }
 
 func TestFileSystem(t *testing.T) {
-
 	tempFolder, err := os.MkdirTemp(os.TempDir(), "teller-filesystem")
 	assert.Nil(t, err)
 	defer os.RemoveAll(tempFolder)
@@ -56,7 +55,6 @@ func TestFileSystem(t *testing.T) {
 }
 
 func TestFileSystemSetEntry(t *testing.T) {
-
 	tempFolder, err := os.MkdirTemp(os.TempDir(), "teller-filesystem")
 	assert.Nil(t, err)
 	defer os.RemoveAll(tempFolder)
@@ -78,11 +76,9 @@ func TestFileSystemSetEntry(t *testing.T) {
 	results, err := f.Get(core.KeyPath{Path: destFile, Decrypt: true})
 	assert.Nil(t, err)
 	assert.NotEmpty(t, results)
-
 }
 
 func TestFileSystemDeleteEntry(t *testing.T) {
-
 	tempFolder, err := os.MkdirTemp(os.TempDir(), "teller-filesystem")
 	assert.Nil(t, err)
 	defer os.RemoveAll(tempFolder)
@@ -103,5 +99,4 @@ func TestFileSystemDeleteEntry(t *testing.T) {
 
 	_, err = f.Get(core.KeyPath{Path: destFile, Decrypt: true})
 	assert.NotNil(t, err)
-
 }

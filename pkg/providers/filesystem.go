@@ -10,9 +10,9 @@ import (
 	"strings"
 	"unicode/utf8"
 
+	"github.com/diegosz/devteller/pkg/core"
+	"github.com/diegosz/devteller/pkg/logging"
 	"github.com/karrick/godirwalk"
-	"github.com/spectralops/teller/pkg/core"
-	"github.com/spectralops/teller/pkg/logging"
 )
 
 type FileSystem struct {
@@ -22,7 +22,7 @@ type FileSystem struct {
 
 const FileSystemName = "FileSystem"
 
-//nolint
+// nolint
 func init() {
 	metaInfo := core.MetaInfo{
 		Description:    "File system",
@@ -69,11 +69,9 @@ func (f *FileSystem) PutMapping(p core.KeyPath, m map[string]string) error {
 
 // GetMapping returns a multiple entries
 func (f *FileSystem) GetMapping(p core.KeyPath) ([]core.EnvEntry, error) {
-
 	findings := []core.EnvEntry{}
 	err := godirwalk.Walk(f.getFilePath(p.Path), &godirwalk.Options{
 		Callback: func(osPathname string, de *godirwalk.Dirent) error {
-
 			if !de.IsRegular() || strings.HasPrefix(de.Name(), ".") {
 				return nil
 			}
@@ -144,11 +142,10 @@ func (f *FileSystem) writeFile(to, val string) error {
 			return err
 		}
 	}
-	return os.WriteFile(to, []byte(val), 0600) //nolint
+	return os.WriteFile(to, []byte(val), 0o600) //nolint
 }
 
 func (f *FileSystem) readFile(filePath string) ([]byte, error) {
-
 	content, err := os.ReadFile(filePath)
 	if err != nil {
 		return nil, err

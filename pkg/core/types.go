@@ -3,7 +3,7 @@ package core
 import (
 	"strings"
 
-	"github.com/spectralops/teller/pkg/logging"
+	"github.com/diegosz/devteller/pkg/logging"
 )
 
 type Severity string
@@ -111,6 +111,7 @@ func (k *KeyPath) WithEnv(env string) KeyPath {
 		Plaintext: k.Plaintext,
 	}
 }
+
 func (k *KeyPath) SwitchPath(path string) KeyPath {
 	return KeyPath{
 		Path:      path,
@@ -194,6 +195,7 @@ func (ee *EnvEntryLookup) EnvBy(key, provider, path, dflt string) string {
 	}
 	return dflt
 }
+
 func (ee *EnvEntryLookup) EnvByKey(key, dflt string) string {
 	for i := range ee.Entries {
 		e := ee.Entries[i]

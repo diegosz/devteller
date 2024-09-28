@@ -6,11 +6,11 @@ import (
 	"testing"
 
 	"github.com/alecthomas/assert"
-	"github.com/spectralops/teller/pkg/core"
+	"github.com/diegosz/devteller/pkg/core"
 )
 
 func TestGenerateProvidersMetaJSON(t *testing.T) {
-	var providersData = []core.MetaInfo{
+	providersData := []core.MetaInfo{
 		{
 			Name:           "Provider_1",
 			Description:    "Description of Provider 1",

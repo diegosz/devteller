@@ -1,4 +1,4 @@
-module github.com/spectralops/teller
+module github.com/diegosz/devteller
 
 go 1.23
 

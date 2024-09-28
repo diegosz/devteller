@@ -3,19 +3,21 @@ package pkg
 import (
 	"os"
 
-	"github.com/spectralops/teller/pkg/core"
+	"github.com/diegosz/devteller/pkg/core"
 	"gopkg.in/yaml.v2"
 )
 
-type ProvidersMap map[string]MappingConfig
-type TellerFile struct {
-	Opts       map[string]string `yaml:"opts,omitempty"`
-	Confirm    string            `yaml:"confirm,omitempty"`
-	Project    string            `yaml:"project,omitempty"`
-	CarryEnv   bool              `yaml:"carry_env,omitempty"`
-	Providers  ProvidersMap      `yaml:"providers,omitempty"`
-	LoadedFrom string
-}
+type (
+	ProvidersMap map[string]MappingConfig
+	TellerFile   struct {
+		Opts       map[string]string `yaml:"opts,omitempty"`
+		Confirm    string            `yaml:"confirm,omitempty"`
+		Project    string            `yaml:"project,omitempty"`
+		CarryEnv   bool              `yaml:"carry_env,omitempty"`
+		Providers  ProvidersMap      `yaml:"providers,omitempty"`
+		LoadedFrom string
+	}
+)
 
 type MappingConfig struct {
 	Kind       string                   `yaml:"kind,omitempty"`

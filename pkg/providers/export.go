@@ -3,7 +3,7 @@ package providers
 import (
 	"encoding/json"
 
-	"github.com/spectralops/teller/pkg/core"
+	"github.com/diegosz/devteller/pkg/core"
 )
 
 type TellerExport struct {
@@ -23,7 +23,6 @@ func GenerateProvidersMetaJSON(version string, providersMetaList []core.MetaInfo
 	}
 
 	jsonOutput, err := json.MarshalIndent(tellerObject, "", "  ")
-
 	if err != nil {
 		return "", err
 	}

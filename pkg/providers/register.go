@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/spectralops/teller/pkg/core"
-	"github.com/spectralops/teller/pkg/logging"
+	"github.com/diegosz/devteller/pkg/core"
+	"github.com/diegosz/devteller/pkg/logging"
 )
 
 var providersMap = map[string]core.RegisteredProvider{}
@@ -25,7 +25,6 @@ func ResolveProvider(providerName string) (core.Provider, error) {
 		return registeredProvider.Builder(logger)
 	}
 	return nil, fmt.Errorf("provider '%s' does not exist", providerName)
-
 }
 
 func ResolveProviderMeta(providerName string) (core.MetaInfo, error) {

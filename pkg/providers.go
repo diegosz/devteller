@@ -1,8 +1,8 @@
 package pkg
 
 import (
-	"github.com/spectralops/teller/pkg/core"
-	"github.com/spectralops/teller/pkg/providers"
+	"github.com/diegosz/devteller/pkg/core"
+	"github.com/diegosz/devteller/pkg/providers"
 )
 
 type Providers interface {
@@ -10,8 +10,7 @@ type Providers interface {
 	ProviderHumanToMachine() map[string]string
 }
 
-type BuiltinProviders struct {
-}
+type BuiltinProviders struct{}
 
 func (p *BuiltinProviders) ProviderHumanToMachine() map[string]string {
 	providersMeta := providers.GetAllProvidersMeta()

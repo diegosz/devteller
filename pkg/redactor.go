@@ -7,7 +7,7 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/spectralops/teller/pkg/core"
+	"github.com/diegosz/devteller/pkg/core"
 )
 
 const (

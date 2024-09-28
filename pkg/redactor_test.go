@@ -6,7 +6,7 @@ import (
 	"testing"
 
 	"github.com/alecthomas/assert"
-	"github.com/spectralops/teller/pkg/core"
+	"github.com/diegosz/devteller/pkg/core"
 )
 
 func TestRedactorOverlap(t *testing.T) {
@@ -101,6 +101,7 @@ func Foobar(){
 		})
 	}
 }
+
 func TestRedactorMultiple(t *testing.T) {
 	entries := []core.EnvEntry{
 		{

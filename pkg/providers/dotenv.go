@@ -5,16 +5,16 @@ import (
 	"path"
 	"sort"
 
+	"github.com/diegosz/devteller/pkg/core"
+	"github.com/diegosz/devteller/pkg/logging"
+	"github.com/diegosz/devteller/pkg/utils"
 	"github.com/joho/godotenv"
 	"github.com/mitchellh/go-homedir"
-	"github.com/spectralops/teller/pkg/core"
-	"github.com/spectralops/teller/pkg/logging"
-	"github.com/spectralops/teller/pkg/utils"
 )
 
 const (
-	filePerm = 0644
-	dirPerm  = 0755
+	filePerm = 0o644
+	dirPerm  = 0o755
 )
 
 type DotEnvClient interface {
@@ -23,8 +23,7 @@ type DotEnvClient interface {
 	Exists(p string) (bool, error)
 	Delete(p string) error
 }
-type DotEnvReader struct {
-}
+type DotEnvReader struct{}
 
 func (d *DotEnvReader) Read(p string) (map[string]string, error) {
 	p, err := homedir.Expand(p)
@@ -96,7 +95,7 @@ type Dotenv struct {
 	logger logging.Logger
 }
 
-//nolint
+// nolint
 func init() {
 	metaInfo := core.MetaInfo{
 		Description:    ".env",

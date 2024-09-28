@@ -5,7 +5,7 @@ import (
 	"testing"
 
 	"github.com/alecthomas/assert"
-	"github.com/spectralops/teller/pkg/core"
+	"github.com/diegosz/devteller/pkg/core"
 )
 
 func TestPorcelainNonInteractive(t *testing.T) {
@@ -37,12 +37,10 @@ func TestPorcelainPrintDrift(t *testing.T) {
 		{
 			Diff: "changed",
 			Source: core.EnvEntry{
-
 				Source: "s1", Key: "k", Value: "v", ProviderName: "test-provider", ResolvedPath: "path/kv",
 			},
 
 			Target: core.EnvEntry{
-
 				Sink: "s1", Key: "k", Value: "x", ProviderName: "test-provider", ResolvedPath: "path/kv",
 			},
 		},

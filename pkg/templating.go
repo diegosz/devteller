@@ -4,11 +4,10 @@ import (
 	"bytes"
 	"text/template"
 
-	"github.com/spectralops/teller/pkg/core"
+	"github.com/diegosz/devteller/pkg/core"
 )
 
-type Templating struct {
-}
+type Templating struct{}
 type viewmodel struct {
 	Teller *core.EnvEntryLookup
 }
