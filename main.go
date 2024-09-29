@@ -102,7 +102,7 @@ func main() {
 	//nolint
 	switch ctx.Command() {
 	case "version":
-		fmt.Printf("Teller %v\n", Version)
+		fmt.Printf("%v\n", Version)
 		os.Exit(0)
 	case "providers":
 		providersMetaList := providers.GetAllProvidersMeta()
