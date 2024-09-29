@@ -1,6 +1,14 @@
 # CHANGELOG
 
 
+## v1.6.1 (2024-09-29)
+
+### Chore Tasks
+
+- update version to v1.6.1
+- update tooling
+
+
 ## v1.6.0 (2024-09-28)
 
 ### Bug Fixes
