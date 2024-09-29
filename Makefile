@@ -7,6 +7,14 @@ include .bingo/Variables.mk
 
 # --------------------------------------------------------------------------------------------------------------------------------
 
+.PHONY: toolsupdate
+
+toolsupdate:
+	@echo Updating tools
+	@$(BINGO) list | tail -n +3 | awk '{print $$1}' | xargs -tI % sh -c '$(BINGO) get -l %@latest'
+
+# --------------------------------------------------------------------------------------------------------------------------------
+
 .PHONY: version
 
 # similar to https://github.com/ahmetb/govvv
@@ -172,27 +180,37 @@ else
    echo = echo "$(1)"
 endif
 
+
 # --------------------------------------------------------------------------------------------------------------------------------
+
+.PHONY: golint gotest gomodupdateall
+
+golint: $(GOLANGCI_LINT)
+	@$(GOLANGCI_LINT) run
+
+gotest:
+	go test -v ./...
+
+gomodupdateall:
+	go get -u ./...
+	go mod tidy
+
+# --------------------------------------------------------------------------------------------------------------------------------
+
+.PHONY: build
+
+build:
+	go build -ldflags "-s -w -X main.Version=0.0.0 -X main.commit=0000000000000000000000000000000000000000 -X main.date=2024-01-01" -o build/devteller .
+
+# --------------------------------------------------------------------------------------------------------------------------------
+
+.PHONY: mocks integration integration_api build
 
 mocks: $(MOCKGEN)
 	@$(MOCKGEN) -source pkg/providers/dotenv.go -destination pkg/providers/mock_providers/dotenv_mock.go
-
-lint: $(GOLANGCI_LINT)
-	@$(GOLANGCI_LINT) run
-
-test:
-	go test -v ./pkg/...
 
 integration:
 	go test -v ./pkg/integration_test -tags=integration
 
 integration_api:
 	go test -v ./pkg/integration_test -tags="integration_api integration"
-
-deps:
-	go mod tidy
-
-build:
-	go build -ldflags "-s -w -X main.Version=0.0.0 -X main.commit=0000000000000000000000000000000000000000 -X main.date=2024-01-01"
-
-.PHONY: mocks lint test integration integration_api deps build
